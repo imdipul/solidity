@@ -38,7 +38,8 @@ contract C {
 }
 // ====
 // SMTEngine: all
+// SMTIgnoreInv: yes
+// SMTIgnoreOS: macos
 // ----
 // Warning 2018: (33-88): Function state mutability can be restricted to view
 // Warning 6328: (367-381): CHC: Assertion violation happens here.
-// Info 1180: (92-495): Contract invariants and external call properties for :C:\n((insidef' || !insidef) && !(<errorCode> >= 3) && (!insidef || ((owner' + ((- 1) * owner)) >= 0)) && (!insidef || ((owner' + ((- 1) * owner)) <= 0)))\n

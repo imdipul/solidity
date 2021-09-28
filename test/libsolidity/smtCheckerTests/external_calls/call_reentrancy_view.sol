@@ -10,6 +10,7 @@ contract C {
 }
 // ====
 // SMTEngine: all
+// SMTIgnoreOS: macos
 // ----
 // Warning 2519: (106-112): This declaration shadows an existing declaration.
 // Warning 2072: (106-112): Unused local variable.

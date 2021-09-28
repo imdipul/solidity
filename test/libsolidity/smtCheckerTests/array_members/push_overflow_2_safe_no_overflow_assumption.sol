@@ -11,5 +11,6 @@ contract C {
 }
 // ====
 // SMTEngine: all
+// SMTIgnoreOS: macos
 // ----
 // Info 1180: (0-187): Contract invariants and external call properties for :C:\n(x.length >= 0)\n

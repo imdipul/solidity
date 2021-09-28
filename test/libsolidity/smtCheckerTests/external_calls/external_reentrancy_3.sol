@@ -28,6 +28,7 @@ contract C is A {
 // ====
 // SMTEngine: all
 // SMTIgnoreCex: yes
+// SMTIgnoreOS: macos
 // ----
 // Warning 6328: (154-168): CHC: Assertion violation happens here.
 // Info 1180: (57-189): Contract invariants and external call properties for :A:\n((x >= 0) && (x <= 0))\n

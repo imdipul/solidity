@@ -20,6 +20,7 @@ contract C {
 }
 // ====
 // SMTEngine: all
+// SMTIgnoreOS: macos
 // ----
 // Warning 6328: (173-208): CHC: Assertion violation happens here.\nCounterexample:\nonce = true\n\nTransaction trace:\nC.constructor()\nState: once = false\nC.f(){ value: 10 }
 // Warning 6328: (321-356): CHC: Assertion violation happens here.\nCounterexample:\nonce = true\n\nTransaction trace:\nC.constructor()\nState: once = false\nC.f(){ value: 10 }\n    C.g(){ value: 10 } -- internal call

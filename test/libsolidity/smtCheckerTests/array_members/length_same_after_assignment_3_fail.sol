@@ -25,6 +25,7 @@ contract C {
 }
 // ====
 // SMTEngine: all
+// SMTIgnoreOS: macos
 // ----
 // Warning 6328: (319-345): CHC: Assertion violation happens here.\nCounterexample:\narr = [[], [], [], [], [], [], [], [], []]\nx = 0\ny = 0\nz = 9\nt = 0\n\nTransaction trace:\nC.constructor()\nState: arr = [[], [], [], [], [], [], [], [], []]\nC.f()
 // Warning 6328: (349-375): CHC: Assertion violation happens here.\nCounterexample:\narr = [[], [], [], [], [], [], [], [], []]\nx = 0\ny = 0\nz = 9\nt = 0\n\nTransaction trace:\nC.constructor()\nState: arr = [[], [], [], [], [], [], [], [], []]\nC.f()

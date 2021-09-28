@@ -16,5 +16,6 @@ contract C
 }
 // ====
 // SMTEngine: all
+// SMTIgnoreOS: macos
 // ----
 // Info 1180: (61-244): Contract invariants and external call properties for :C:\n!(<errorCode> = 1)\n((!(x <= 0) || !(<errorCode> >= 2)) && (!(x <= 0) || (x' <= 0)))\n(x <= 0)\n

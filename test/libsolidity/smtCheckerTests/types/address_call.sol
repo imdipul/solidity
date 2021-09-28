@@ -19,6 +19,7 @@ contract C
 // EVMVersion: >spuriousDragon
 // SMTEngine: all
 // SMTIgnoreCex: yes
+// SMTIgnoreOS: macos
 // ----
 // Warning 2072: (127-166): Unused local variable.
 // Warning 2072: (191-207): Unused local variable.
