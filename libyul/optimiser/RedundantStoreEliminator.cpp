@@ -83,12 +83,42 @@ void RedundantStoreEliminator::operator()(FunctionCall const& _functionCall)
 	for (Operation const& op: operationsFromFunctionCall(_functionCall))
 		applyOperation(op);
 
+	// TODO the states we want to know:
+	// might terminate (-> storage changes all have to be applied)
+	// always terminates (code after it is unreachabel and can be removed)
+	// always reverts (storage changes before it can be removed)
+
+	// worst side effects (the "safe" setting):
+	//  - alwaysTerminates = false
+	//  - alwaysReverts = false
+	//  - mightTerminate = true
+	// as modality: terminate = Might, reverts: Might
+
+	// default side effects:
+	//  - same as "worst" just that mightTerminate = false
+	// as modality: -> terminates = Never, reverts: Never
+
+	// Combining modalities: "Always" never stays, turns to "Might" even when combined with "always" (never know the control flow)
+	// Never + Might -> Might
+
+	// function does not loop and last statement always terminates -> always terminetas
+	// same with "always reverts"
+	// function calls function that might terminate -> might terminate
+
+	// If we use the above booleans and combine them (without knowing parallel or consecutive):
+	// alwaysTerminates: always set to false
+	//
+
 	// TODO handle reverts of user-defined functions
 
+	// TODO
 	if (BuiltinFunction const* f = m_dialect.builtin(_functionCall.functionName.name))
 		if (f->controlFlowSideEffects.terminates)
 		{
+			// here we need "always terminates"
 			changeUndecidedTo(State::Unused, Location::Memory);
+			// TODO here, it is not relevent whether it always terminates,
+			// but whether it might terminate.
 			changeUndecidedTo(
 				f->controlFlowSideEffects.reverts ?
 				State::Unused :

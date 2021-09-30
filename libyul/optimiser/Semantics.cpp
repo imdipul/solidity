@@ -114,6 +114,17 @@ map<YulString, SideEffects> SideEffectsPropagator::sideEffects(
 	// In the future, we should refine that, because the property
 	// is actually a bit different from "not movable".
 
+	// A funciton always terminates if:
+	//  - it cannot loop and
+	//  - it does not contain "leave" and
+	//  - its last statement is a call to a function that always terminates
+	// A funciton might terminate if it contains a call to a funciton that might termintae
+	// A funciton does not terminate if it cannot loop and all side-effects are "never terminates"
+
+	// A function reverts always if:
+	//  - same as above, but actualy it also cannot contain a call that terminates but does not revert :(
+	// -> we really have to do this on block basis.
+
 	map<YulString, SideEffects> ret;
 	for (auto const& function: _directCallGraph.functionsWithLoops + _directCallGraph.recursiveFunctions())
 	{

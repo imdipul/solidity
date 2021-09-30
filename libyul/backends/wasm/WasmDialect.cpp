@@ -129,8 +129,8 @@ WasmDialect::WasmDialect()
 	m_functions["unreachable"_yulstring].sideEffects.storage = SideEffects::None;
 	m_functions["unreachable"_yulstring].sideEffects.memory = SideEffects::None;
 	m_functions["unreachable"_yulstring].sideEffects.otherState = SideEffects::None;
-	m_functions["unreachable"_yulstring].controlFlowSideEffects.terminates = true;
-	m_functions["unreachable"_yulstring].controlFlowSideEffects.reverts = true;
+	m_functions["unreachable"_yulstring].controlFlowSideEffects.terminates = Modality::Always;
+	m_functions["unreachable"_yulstring].controlFlowSideEffects.reverts = Modality::Always;
 
 	addFunction("datasize", {i64}, {i64}, true, {LiteralKind::String});
 	addFunction("dataoffset", {i64}, {i64}, true, {LiteralKind::String});
@@ -215,11 +215,11 @@ void WasmDialect::addExternals()
 		{"eth", "log", {i32ptr, i32, i32, i32ptr, i32ptr, i32ptr, i32ptr}, {}},
 		{"eth", "getBlockNumber", {}, {i64}},
 		{"eth", "getTxOrigin", {i32ptr}, {}},
-		{"eth", "finish", {i32ptr, i32}, {}, ControlFlowSideEffects{true, false}},
-		{"eth", "revert", {i32ptr, i32}, {}, ControlFlowSideEffects{true, true}},
+		{"eth", "finish", {i32ptr, i32}, {}, ControlFlowSideEffects{Modality::Never, Modality::Always, Modality::Never}},
+		{"eth", "revert", {i32ptr, i32}, {}, ControlFlowSideEffects{Modality::Never, Modality::Always, Modality::Always}},
 		{"eth", "getReturnDataSize", {}, {i32}},
 		{"eth", "returnDataCopy", {i32ptr, i32, i32}, {}},
-		{"eth", "selfDestruct", {i32ptr}, {}, ControlFlowSideEffects{true, false}},
+		{"eth", "selfDestruct", {i32ptr}, {}, ControlFlowSideEffects{Modality::Never, Modality::Always, Modality::Never}},
 		{"eth", "getBlockTimestamp", {}, {i64}},
 		{"debug", "print32", {i32}, {}},
 		{"debug", "print64", {i64}, {}},

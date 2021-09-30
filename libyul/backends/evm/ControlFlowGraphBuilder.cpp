@@ -226,6 +226,7 @@ void ControlFlowGraphBuilder::operator()(ExpressionStatement const& _exprStmt)
 		[&](auto const&) { yulAssert(false, ""); }
 	}, _exprStmt.expression);
 
+	// TODO
 	// TODO: Ideally this would be done on the expression label and for all functions that always revert,
 	//       not only for builtins.
 	if (auto const* funCall = get_if<FunctionCall>(&_exprStmt.expression))

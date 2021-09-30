@@ -34,6 +34,8 @@ add_library(yul
 	AssemblyStack.cpp
 	CompilabilityChecker.cpp
 	CompilabilityChecker.h
+	ControlFlowSideEffects.cpp
+	ControlFlowSideEffects.h
 	Dialect.cpp
 	Dialect.h
 	Exceptions.h
