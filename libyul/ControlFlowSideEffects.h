@@ -18,16 +18,12 @@
 
 #pragma once
 
-#include <libyul/optimiser/ASTWalker.h>
-
 #include <set>
 #include <stack>
 #include <optional>
 
 namespace solidity::yul
 {
-
-struct Dialect;
 
 /// Whether an effect, depending on the input, might happen, always happens
 /// or never happens.
@@ -37,22 +33,6 @@ enum Modality
 	Maybe,
 	Always
 };
-
-}
-/// Serial (consecutive) combination of two effects.
-inline solidity::yul::Modality operator+=(solidity::yul::Modality _a, solidity::yul::Modality _b)
-{
-	return static_cast<solidity::yul::Modality>(std::max<int>(static_cast<int>(_a), static_cast<int>(_b)));
-}
-
-/// Parallel (alternative) combination of two effects.
-inline solidity::yul::Modality operator|=(solidity::yul::Modality _a, solidity::yul::Modality _b)
-{
-	return _a == _b ? _a : solidity::yul::Modality::Maybe;
-}
-
-namespace solidity::yul
-{
 
 /**
  * Side effects of code related to control flow.
@@ -70,58 +50,6 @@ struct ControlFlowSideEffects
 	Modality loops = Modality::Never;
 	Modality terminates = Modality::Never;
 	Modality reverts = Modality::Never;
-
-	/// Serial (consecutive) combination of two side effects.
-	ControlFlowSideEffects& operator+=(ControlFlowSideEffects const& _other);
-	/// Parallel (alternative) combination of two side effects.
-	ControlFlowSideEffects& operator|=(ControlFlowSideEffects const& _other);
 };
-
-/**
- * Requires: Disambiguator.
- */
-class ControlFlowSideEffectsCollector: public ASTWalker
-{
-public:
-	static std::map<YulString, ControlFlowSideEffects> sideEffectsOfFunctions(
-		Block const& _ast,
-		Dialect const& _dialect
-	);
-//	static ControlFlowSideEffects sideEffectsOfCode(
-//		Expression const& _ast,
-//		Dialect const& _dialect
-//	);
-//	ControlFlowSideEffectsCollector(
-//		Dialect const& _dialect,
-//		std::map<YulString, ControlFlowSideEffects> _functionSideEffects
-//	);
-
-	using ASTWalker::operator();
-	void operator()(FunctionCall const& _functionCall) override;
-	void operator()(If const& _if) override;
-	void operator()(Switch const& _switch) override;
-	void operator()(FunctionDefinition const& _functionDefinition) override;
-	void operator()(ForLoop const& _forLoop) override;
-	void operator()(Break const& _break) override;
-	void operator()(Continue const& _continue) override;
-	void operator()(Leave const& _leave) override;
-
-private:
-	explicit ControlFlowSideEffectsCollector(Dialect const& _dialect):
-		m_dialect(_dialect)
-	{}
-
-	Dialect const& m_dialect;
-	std::map<YulString, FunctionDefinition const*> m_functions;
-	std::map<YulString, ControlFlowSideEffects> m_functionSideEffects;
-	ControlFlowSideEffects m_sideEffects;
-	struct
-	{
-		std::optional<ControlFlowSideEffects> pendingBreak;
-		std::optional<ControlFlowSideEffects> pendingContinue;
-		std::optional<ControlFlowSideEffects> pendingLeave;
-	} m_contextInfo;
-};
-
 
 }
